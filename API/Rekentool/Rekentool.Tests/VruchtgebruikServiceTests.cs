@@ -165,6 +165,7 @@ public class VruchtgebruikServiceTests
 
         var result = _service.Calculate(request);
 
+        Assert.Equal(20, result.Factor);
         Assert.Equal(200000, result.Vruchtgebruikwaarde);
     }
 }
