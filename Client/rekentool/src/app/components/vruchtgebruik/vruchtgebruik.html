@@ -1,0 +1,111 @@
+<div class="container">
+  <h1>Vruchtgebruik Berekening</h1>
+
+  <form [formGroup]="form" (ngSubmit)="calculate()">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Eigendomswaarde (&#8364;)</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="eigendomswaarde"
+      />
+      @if (form.controls.eigendomswaarde.hasError('required')) {
+        <mat-error>Eigendomswaarde is verplicht.</mat-error>
+      }
+      @if (form.controls.eigendomswaarde.hasError('min')) {
+        <mat-error>Eigendomswaarde moet groter zijn dan 0.01</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Leeftijd</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="leeftijd"
+      />
+
+      @if (form.controls.leeftijd.hasError('required')) {
+        <mat-error>Leeftijd is verplicht.</mat-error>
+      }
+
+      @if (form.controls.leeftijd.hasError('min')) {
+        <mat-error>Leeftijd moet groter zijn dan 0</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Geslacht</mat-label>
+      <mat-select formControlName="geslacht">
+        @for (geslacht of geslachten; track geslacht) {
+          <mat-option [value]="geslacht">
+            {{ geslacht }}
+          </mat-option>
+        }
+      </mat-select>
+      @if (form.controls.geslacht.hasError('required')) {
+        <mat-error>Geslacht is verplicht.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Berekeningsmethode</mat-label>
+      <mat-select formControlName="berekeningsmethode">
+        @for (methode of berekeningsmethodes; track methode) {
+          <mat-option [value]="methode">
+            {{ berekeningsmethodeLabels[methode] }}
+          </mat-option>
+        }
+      </mat-select>
+      @if (form.controls.berekeningsmethode.hasError('required')) {
+        <mat-error>Berekeningsmethode is verplicht.</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-flat-button type="submit" [disabled]="isLoading()">
+      Bereken
+    </button>
+  </form>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <mat-spinner></mat-spinner>
+      <span class="mat-body-medium">Berekening wordt uitgevoerd...</span>
+    </div>
+  }
+  @if (result()) {
+    <div class="result">
+      <h2 class="mat-title-large">Resultaat</h2>
+
+      <div class="result-row">
+        <span class="mat-body-medium">Eigendomswaarde</span>
+        <span class="mat-body-medium">
+          {{ result()?.eigendomswaarde | currency:'EUR':'symbol':'1.2-2' }}
+        </span>
+      </div>
+
+      <div class="result-row">
+        <span class="mat-body-medium">Factor</span>
+        <span class="mat-body-medium">
+          {{ result()?.factor }}
+        </span>
+      </div>
+
+      <div class="result-row">
+        <span class="mat-body-medium">Vruchtgebruikwaarde</span>
+        <span class="mat-body-medium">
+          {{ result()?.vruchtgebruikwaarde | currency:'EUR':'symbol':'1.2-2' }}
+        </span>
+      </div>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error">
+      <span class="mat-body-medium">
+      {{ errorMessage() }}
+      </span>
+    </div>
+  }
+</div>

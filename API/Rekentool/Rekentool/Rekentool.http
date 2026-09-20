@@ -1,6 +1,12 @@
-@Rekentool_HostAddress = http://localhost:5153
+@Rekentool_HostAddress = https://localhost:7122
 
-GET {{Rekentool_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{Rekentool_HostAddress}}/api/Vruchtgebruik/
+Content-Type: application/json
+{
+  "eigendomswaarde": 100000,
+  "leeftijd": 35,
+  "geslacht": "Vrouw",
+  "berekeningsmethode": "EenLeven"
+}
 
 ###
