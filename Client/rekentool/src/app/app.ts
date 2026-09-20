@@ -1,12 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Vruchtgebruik } from './components/vruchtgebruik/vruchtgebruik';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [Vruchtgebruik],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('rekentool');
-}
+export class App { }
